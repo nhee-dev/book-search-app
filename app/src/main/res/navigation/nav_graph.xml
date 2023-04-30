@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/booksFragment">
+
+    <fragment
+        android:id="@+id/booksFragment"
+        android:name="com.nhee.booksearchapp.ui.books.BooksFragment"
+        android:label="fragment_books"
+        tools:layout="@layout/fragment_books" >
+        <action
+            android:id="@+id/action_booksFragment_to_webBrowserFragment"
+            app:destination="@id/webBrowserFragment" />
+        <action
+            android:id="@+id/action_booksFragment_to_bookmarksFragment"
+            app:destination="@id/bookmarksFragment" />
+        <action
+            android:id="@+id/action_booksFragment_to_recentSearchWordsFragment"
+            app:destination="@id/recentSearchWordsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bookmarksFragment"
+        android:name="com.nhee.booksearchapp.ui.bookmarks.BookmarksFragment"
+        android:label="fragment_bookmarks"
+        tools:layout="@layout/fragment_bookmarks" />
+    <fragment
+        android:id="@+id/recentSearchWordsFragment"
+        android:name="com.nhee.booksearchapp.ui.recentsearchwords.RecentSearchWordsFragment"
+        android:label="fragment_recent_search_words"
+        tools:layout="@layout/fragment_recent_search_words" />
+    <fragment
+        android:id="@+id/webBrowserFragment"
+        android:name="com.nhee.booksearchapp.ui.webbrowser.WebBrowserFragment"
+        android:label="fragment_web_browser"
+        tools:layout="@layout/fragment_web_browser" />
+</navigation>
