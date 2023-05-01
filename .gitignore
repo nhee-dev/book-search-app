@@ -30,3 +30,5 @@ misc.xml
 
 # Windows thumbnail db
 .DS_Store
+
+**/ServerConstants.kt
