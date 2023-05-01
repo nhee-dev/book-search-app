@@ -22,6 +22,7 @@ import com.nhee.booksearchapp.R
 import com.nhee.booksearchapp.databinding.FragmentBooksBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class BooksFragment : Fragment() {
 
     private val viewModel by viewModels<BooksViewModel>()

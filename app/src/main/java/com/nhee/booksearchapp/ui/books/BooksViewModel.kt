@@ -8,7 +8,8 @@ import com.nhee.booksearchapp.domain.SearchBooksUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class BooksViewModel : ViewModel() {
+@HiltViewModel
+class BooksViewModel @Inject constructor() : ViewModel() {
 
     private val _searchWords = MutableLiveData<String>("")
     val searchWords: LiveData<String>
