@@ -5,18 +5,35 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebViewClient
+import androidx.navigation.fragment.navArgs
 import com.nhee.booksearchapp.R
+import com.nhee.booksearchapp.databinding.FragmentWebBrowserBinding
 
 class WebBrowserFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var viewDataBinding : FragmentWebBrowserBinding
+
+    val args: WebBrowserFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_web_browser, container, false)
+        viewDataBinding = FragmentWebBrowserBinding.inflate(inflater, container, false)
+        return viewDataBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewDataBinding.wvBookInfo.apply {
+            webViewClient = WebViewClient()
+
+            settings.apply {
+                javaScriptEnabled = true
+                domStorageEnabled = true
+            }
+            loadUrl(args.link)
+        }
     }
 }

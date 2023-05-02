@@ -76,7 +76,7 @@ class BooksFragment : Fragment() {
             adapter = booksAdapter.apply {
                 setBookClickListener(object : BooksAdapter.ItemClickListener {
                     override fun onClick(view: View, position: Int, item: Book) {
-                        val action = BooksFragmentDirections.actionBooksFragmentToWebBrowserFragment()
+                        val action = BooksFragmentDirections.actionBooksFragmentToWebBrowserFragment(item.link)
                         findNavController().navigate(action)
                     }
                 })

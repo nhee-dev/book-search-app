@@ -7,11 +7,10 @@
         android:layout_height="match_parent"
         tools:context=".ui.webbrowser.WebBrowserFragment">
 
-        <!-- TODO: Update blank fragment layout -->
-        <TextView
+        <WebView
+            android:id="@+id/wv_book_info"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:layout_height="match_parent"/>
 
     </FrameLayout>
     
