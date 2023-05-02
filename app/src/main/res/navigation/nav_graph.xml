@@ -34,5 +34,10 @@
         android:id="@+id/webBrowserFragment"
         android:name="com.nhee.booksearchapp.ui.webbrowser.WebBrowserFragment"
         android:label="fragment_web_browser"
-        tools:layout="@layout/fragment_web_browser" />
+        tools:layout="@layout/fragment_web_browser">
+        <argument
+            android:name="link"
+            app:argType="string"
+            android:defaultValue="https://naver.com" />
+    </fragment>
 </navigation>
