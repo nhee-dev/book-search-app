@@ -99,6 +99,18 @@
             app:layout_constraintTop_toBottomOf="@id/layout_book_search"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
+        <ProgressBar
+            android:id="@+id/pb_book_search"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="160dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

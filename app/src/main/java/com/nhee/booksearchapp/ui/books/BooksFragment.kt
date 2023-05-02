@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -116,5 +117,25 @@ class BooksFragment : Fragment() {
                 booksAdapter.submitList(newList)
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.booksSearchResults.collect {
+                if (it is Result.Loading) {
+                    showProgressBar()
+                } else {
+                    hideProgressBar()
+                }
+            }
+        }
+    }
+
+    private fun showProgressBar() {
+        viewDataBinding.pbBookSearch.visibility = View.VISIBLE
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+    }
+
+    private fun hideProgressBar() {
+        viewDataBinding.pbBookSearch.visibility = View.GONE
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 }
