@@ -28,10 +28,6 @@ class BooksFragment : Fragment() {
     private val viewModel by viewModels<BooksViewModel>()
 
     private lateinit var viewDataBinding: FragmentBooksBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,5 +42,18 @@ class BooksFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupBookSearchBtn()
+    }
+
+    private fun setupBookSearchBtn() {
+        viewDataBinding.btnBookSearch.apply {
+            setOnClickListener {
+                if (viewModel.searchWords.value.equals("")) {
+                    Toast.makeText(requireContext(), "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.searchBooks()
+                }
+            }
+        }
     }
 }
