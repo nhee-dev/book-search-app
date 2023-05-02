@@ -27,9 +27,9 @@ class BooksAdapter : ListAdapter<Book, BooksAdapter.ItemViewHolder>(diffUtil) {
                 layoutBookInfo.setOnClickListener {
                     bookClickListener.onClick(it, layoutPosition, book)
                 }
-                btnBookmark.setOnClickListener {
-                    bookmarkClickListener.onClick(it, layoutPosition, book)
-                }
+//                btnBookmark.setOnClickListener {
+//                    bookmarkClickListener.onClick(it, layoutPosition, book)
+//                }
             }
         }
     }
@@ -51,10 +51,10 @@ class BooksAdapter : ListAdapter<Book, BooksAdapter.ItemViewHolder>(diffUtil) {
         this.bookClickListener = bookClickListener
     }
 
-    private lateinit var bookmarkClickListener: ItemClickListener
-    fun setBookmarkClickListener(bookmarkClickListener: ItemClickListener) {
-        this.bookmarkClickListener = bookmarkClickListener
-    }
+//    private lateinit var bookmarkClickListener: ItemClickListener
+//    fun setBookmarkClickListener(bookmarkClickListener: ItemClickListener) {
+//        this.bookmarkClickListener = bookmarkClickListener
+//    }
 
     companion object {
         val diffUtil = object : DiffUtil.ItemCallback<Book>() {

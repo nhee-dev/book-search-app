@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.nhee.booksearchapp.data.Book
+import com.nhee.booksearchapp.data.Result
 import com.nhee.booksearchapp.databinding.FragmentBooksBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -57,10 +58,10 @@ class BooksFragment : Fragment() {
 
     private fun setupNavigation() {
         viewDataBinding.apply {
-            tvBookmarks.setOnClickListener {
-                val action = BooksFragmentDirections.actionBooksFragmentToBookmarksFragment()
-                findNavController().navigate(action)
-            }
+//            tvBookmarks.setOnClickListener {
+//                val action = BooksFragmentDirections.actionBooksFragmentToBookmarksFragment()
+//                findNavController().navigate(action)
+//            }
             tvRecentSearchWords.setOnClickListener {
                 val action = BooksFragmentDirections.actionBooksFragmentToRecentSearchWordsFragment()
                 findNavController().navigate(action)
@@ -81,12 +82,12 @@ class BooksFragment : Fragment() {
                     }
                 })
 
-                setBookmarkClickListener(object  : BooksAdapter.ItemClickListener {
-                    override fun onClick(view: View, position: Int, item: Book) {
-                        val msg: String = position.toString() + "번째 책 북마크!"
-                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
-                    }
-                })
+//                setBookmarkClickListener(object  : BooksAdapter.ItemClickListener {
+//                    override fun onClick(view: View, position: Int, item: Book) {
+//                        val msg: String = position.toString() + "번째 책 북마크!"
+//                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+//                    }
+//                })
             }
         }
     }
