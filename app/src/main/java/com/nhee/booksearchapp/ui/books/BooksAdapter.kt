@@ -1,6 +1,7 @@
 package com.nhee.booksearchapp.ui.books
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -22,6 +23,13 @@ class BooksAdapter : ListAdapter<Book, BooksAdapter.ItemViewHolder>(diffUtil) {
                 Glide.with(root)
                     .load(book.image)
                     .into(ivBook)
+
+                layoutBookInfo.setOnClickListener {
+                    bookClickListener.onClick(it, layoutPosition, book)
+                }
+                btnBookmark.setOnClickListener {
+                    bookmarkClickListener.onClick(it, layoutPosition, book)
+                }
             }
         }
     }
@@ -32,6 +40,20 @@ class BooksAdapter : ListAdapter<Book, BooksAdapter.ItemViewHolder>(diffUtil) {
 
     override fun onBindViewHolder(holder: BooksAdapter.ItemViewHolder, position: Int) {
         holder.bind(currentList[position])
+    }
+
+    interface ItemClickListener {
+        fun onClick(view: View, position: Int, item: Book)
+    }
+
+    private lateinit var bookClickListener: ItemClickListener
+    fun setBookClickListener(bookClickListener: ItemClickListener) {
+        this.bookClickListener = bookClickListener
+    }
+
+    private lateinit var bookmarkClickListener: ItemClickListener
+    fun setBookmarkClickListener(bookmarkClickListener: ItemClickListener) {
+        this.bookmarkClickListener = bookmarkClickListener
     }
 
     companion object {

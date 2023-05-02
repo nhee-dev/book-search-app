@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.nhee.booksearchapp.data.Book
 import com.nhee.booksearchapp.databinding.FragmentBooksBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -72,7 +73,21 @@ class BooksFragment : Fragment() {
 
         viewDataBinding.rvBooks.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = booksAdapter
+            adapter = booksAdapter.apply {
+                setBookClickListener(object : BooksAdapter.ItemClickListener {
+                    override fun onClick(view: View, position: Int, item: Book) {
+                        val action = BooksFragmentDirections.actionBooksFragmentToWebBrowserFragment()
+                        findNavController().navigate(action)
+                    }
+                })
+
+                setBookmarkClickListener(object  : BooksAdapter.ItemClickListener {
+                    override fun onClick(view: View, position: Int, item: Book) {
+                        val msg: String = position.toString() + "번째 책 북마크!"
+                        Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
         }
     }
 
