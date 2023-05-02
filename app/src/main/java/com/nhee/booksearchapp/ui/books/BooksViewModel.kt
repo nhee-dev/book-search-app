@@ -21,8 +21,6 @@ class BooksViewModel @Inject constructor(
     val searchWords: LiveData<String>
         get() = _searchWords
 
-    val searchWordsList: LiveData<List<SearchWord>> = searchWordsRepository.searchWords.asLiveData()
-
     fun updateSearchWords(s: Editable) {
         _searchWords.value = s.toString()
     }
