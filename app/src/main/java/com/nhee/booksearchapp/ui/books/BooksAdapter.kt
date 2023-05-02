@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.nhee.booksearchapp.data.Book
 import com.nhee.booksearchapp.databinding.ItemBookBinding
 
@@ -13,10 +14,15 @@ class BooksAdapter : ListAdapter<Book, BooksAdapter.ItemViewHolder>(diffUtil) {
         private val binding: ItemBookBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun bind(book: Book) {
-            binding.tvTitle.text = book.title
-            binding.tvAuthor.text = book.author
-            binding.tvPublisher.text = book.publisher
-            binding.tvDiscount.text = book.discount.toString()
+            binding.apply {
+                tvTitle.text = book.title
+                tvAuthor.text = book.author
+                tvPublisher.text = book.publisher
+                tvDiscount.text = book.discount.toString()
+                Glide.with(root)
+                    .load(book.image)
+                    .into(ivBook)
+            }
         }
     }
 
