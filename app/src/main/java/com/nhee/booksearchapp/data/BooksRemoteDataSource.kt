@@ -12,8 +12,8 @@ import javax.inject.Singleton
 class BooksRemoteDataSource @Inject constructor(
     private val searchBooksApi: SearchBooksApiService,
 ) {
-    suspend fun searchBooks(clientId: String, clientSecret: String, searchWords: String)
+    suspend fun searchBooks(clientId: String, clientSecret: String, searchWords: String, display: Int, start: Int)
     : Flow<Response<BookSearchResults>> = flow {
-        emit(searchBooksApi.getBooks(clientId, clientSecret, searchWords))
+        emit(searchBooksApi.getBooks(clientId, clientSecret, searchWords, display, start))
     }
 }

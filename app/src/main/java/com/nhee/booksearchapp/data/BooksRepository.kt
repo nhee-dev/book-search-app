@@ -12,12 +12,12 @@ import javax.inject.Singleton
 class BooksRepository @Inject constructor(
     private val booksRemoteDataSource: BooksRemoteDataSource
 ) {
-    fun searchBooks(clientId: String, clientSecret: String, searchWords: String)
+    fun searchBooks(clientId: String, clientSecret: String, searchWords: String, display: Int, start: Int)
     : Flow<Result<Response<BookSearchResults>>> = flow {
 
         emit(Result.Loading)
 
-        booksRemoteDataSource.searchBooks(clientId, clientSecret, searchWords).collect {
+        booksRemoteDataSource.searchBooks(clientId, clientSecret, searchWords, display, start).collect {
             if (it.code() == 200) {
                 emit(Result.Success(it))
             }

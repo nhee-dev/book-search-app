@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.nhee.booksearchapp.data.Book
 import com.nhee.booksearchapp.data.Result
 import com.nhee.booksearchapp.databinding.FragmentBooksBinding
@@ -50,7 +51,8 @@ class BooksFragment : Fragment() {
                 if (viewModel.searchWords.value.equals("")) {
                     Toast.makeText(requireContext(), "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 } else {
-                    viewModel.searchBooks()
+                    booksAdapter.submitList(listOf())
+                    viewModel.searchBooks(true)
                 }
             }
         }
@@ -89,13 +91,29 @@ class BooksFragment : Fragment() {
 //                    }
 //                })
             }
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val lastVisibleItemPosition =
+                        (recyclerView.layoutManager as LinearLayoutManager?)!!
+                            .findLastCompletelyVisibleItemPosition()
+
+                    val itemTotalCount = recyclerView.adapter!!.itemCount
+                    val itemLastIndex = itemTotalCount - 1
+                    if (lastVisibleItemPosition == itemLastIndex) {
+                        viewModel.searchBooks(false)
+                    }
+                }
+            })
         }
     }
 
     private fun setObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.books.collect {
-                booksAdapter.submitList(it)
+                val newList = booksAdapter.currentList.toMutableList()
+                newList.addAll(it)
+                booksAdapter.submitList(newList)
             }
         }
     }

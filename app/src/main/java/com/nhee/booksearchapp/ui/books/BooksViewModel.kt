@@ -39,22 +39,35 @@ class BooksViewModel @Inject constructor(
     val searchWords: LiveData<String>
         get() = _searchWords
 
+    private val _display: Int = 10
+    val display: Int
+        get() = _display
+
+    private var _start: Int = 1
+    val start: Int
+        get() = _start
+
     fun updateSearchWords(s: Editable) {
         _searchWords.value = s.toString()
     }
 
     // Launching a new coroutine to save(insert) the data in a non-blocking way
-    fun searchBooks() = viewModelScope.launch {
+    fun searchBooks(isFirst: Boolean) = viewModelScope.launch {
         val word = searchWords.value!!
 
-        searchWordsRepository.insert(word)
-        booksRepository.searchBooks(clientId, clientSecret, word).collectLatest {
+        if (isFirst) {
+            _start = 1
+            searchWordsRepository.insert(word)
+        }
+
+        booksRepository.searchBooks(clientId, clientSecret, word, display, start).collectLatest {
             if (it is Result.Loading) {
                 _booksSearchResults.emit(it)
             }
             else if (it is Result.Success) {
                 _booksSearchResults.emit(it)
                 _books.emit(it.data.body()!!.items)
+                _start += display
             }
             else if (it is Result.Error) {
                 _booksSearchResults.emit(it)

@@ -11,6 +11,8 @@ interface SearchBooksApiService {
     suspend fun getBooks(
         @Header("X-Naver-Client-Id") clientId: String,
         @Header("X-Naver-Client-Secret") clientSecret: String,
-        @Query("query") query: String
+        @Query("query") query: String,
+        @Query("display") display: Int,
+        @Query("start") start: Int
     ): Response<BookSearchResults>
 }
