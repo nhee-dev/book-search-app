@@ -6,7 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="8dp">
+        android:padding="16dp">
         
         <LinearLayout
             android:id="@+id/layout_book_info"
@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_bookmark">
+            app:layout_constraintEnd_toEndOf="parent">
             
             <ImageView
                 android:id="@+id/iv_book"
@@ -57,14 +57,14 @@
             
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_bookmark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:backgroundTint="@color/main_color"
-            android:text="북마크"/>
+<!--        <Button-->
+<!--            android:id="@+id/btn_bookmark"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            android:backgroundTint="@color/main_color"-->
+<!--            android:text="북마크"/>-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
