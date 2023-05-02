@@ -5,14 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.nhee.booksearchapp.data.Book
 import com.nhee.booksearchapp.data.Result
 import com.nhee.booksearchapp.databinding.FragmentBooksBinding
+import com.nhee.booksearchapp.ui.dialog.ErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -50,7 +53,8 @@ class BooksFragment : Fragment() {
                 if (viewModel.searchWords.value.equals("")) {
                     Toast.makeText(requireContext(), "검색어를 입력해주세요.", Toast.LENGTH_SHORT).show()
                 } else {
-                    viewModel.searchBooks()
+                    booksAdapter.submitList(listOf())
+                    viewModel.searchBooks(true)
                 }
             }
         }
@@ -89,14 +93,54 @@ class BooksFragment : Fragment() {
 //                    }
 //                })
             }
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val lastVisibleItemPosition =
+                        (recyclerView.layoutManager as LinearLayoutManager?)!!
+                            .findLastCompletelyVisibleItemPosition()
+
+                    val itemTotalCount = recyclerView.adapter!!.itemCount
+                    val itemLastIndex = itemTotalCount - 1
+                    if (lastVisibleItemPosition == itemLastIndex) {
+                        viewModel.searchBooks(false)
+                    }
+                }
+            })
         }
     }
 
     private fun setObserver() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.books.collect {
-                booksAdapter.submitList(it)
+                val newList = booksAdapter.currentList.toMutableList()
+                newList.addAll(it)
+                booksAdapter.submitList(newList)
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.booksSearchResults.collect {
+                if (it is Result.Loading) {
+                    showProgressBar()
+                } else {
+                    hideProgressBar()
+                }
+
+                if(it is Result.Error) {
+                    ErrorDialog(it.exception?.message).show(requireActivity().supportFragmentManager, "ErrorDialog")
+                }
+            }
+        }
+    }
+
+    private fun showProgressBar() {
+        viewDataBinding.pbBookSearch.visibility = View.VISIBLE
+        requireActivity().window.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+    }
+
+    private fun hideProgressBar() {
+        viewDataBinding.pbBookSearch.visibility = View.GONE
+        requireActivity().window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
     }
 }
