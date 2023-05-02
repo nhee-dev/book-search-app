@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.nhee.booksearchapp.databinding.FragmentBooksBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class BooksFragment : Fragment() {
@@ -17,6 +20,8 @@ class BooksFragment : Fragment() {
     private val viewModel by viewModels<BooksViewModel>()
 
     private lateinit var viewDataBinding: FragmentBooksBinding
+
+    private lateinit var booksAdapter: BooksAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +38,8 @@ class BooksFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupBookSearchBtn()
         setupNavigation()
+        setupRecyclerView()
+        setObserver()
     }
 
     private fun setupBookSearchBtn() {
@@ -56,6 +63,23 @@ class BooksFragment : Fragment() {
             tvRecentSearchWords.setOnClickListener {
                 val action = BooksFragmentDirections.actionBooksFragmentToRecentSearchWordsFragment()
                 findNavController().navigate(action)
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
+        booksAdapter = BooksAdapter()
+
+        viewDataBinding.rvBooks.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = booksAdapter
+        }
+    }
+
+    private fun setObserver() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.books.collect {
+                booksAdapter.submitList(it)
             }
         }
     }
