@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nhee.booksearchapp.data.Book
 import com.nhee.booksearchapp.data.Result
 import com.nhee.booksearchapp.databinding.FragmentBooksBinding
+import com.nhee.booksearchapp.ui.dialog.ErrorDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -124,6 +125,10 @@ class BooksFragment : Fragment() {
                     showProgressBar()
                 } else {
                     hideProgressBar()
+                }
+
+                if(it is Result.Error) {
+                    ErrorDialog(it.exception?.message).show(requireActivity().supportFragmentManager, "ErrorDialog")
                 }
             }
         }
